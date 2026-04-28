@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panel Docente | Educational Harmonie</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    *{box-sizing:border-box}
+    body{
+      font-family:"Poppins",sans-serif;
+      background:linear-gradient(135deg,#eef3fa,#ffffff);
+      margin:0;display:flex;min-height:100vh;color:#2c3e50;overflow-x:hidden;
+    }
+    .sidebar{
+      width:260px;background:linear-gradient(180deg,#0b63e5,#00b4ff);
+      color:#fff;display:flex;flex-direction:column;align-items:center;padding:25px 0;
+      box-shadow:4px 0 15px rgba(0,0,0,0.2);position:fixed;height:100vh;z-index:1000;
+    }
+    .brand{ text-align:center;margin-bottom:20px; }
+    .brand i{ font-size:3rem;color:#fff;margin-bottom:10px;display:block }
+    .brand h1{ font-size:1.1rem;letter-spacing:1px;margin:0 }
+    nav{ width:100%; display:flex; flex-direction:column; gap:10px; align-items:center; padding:10px 0; }
+    nav a{ display:flex; align-items:center; gap:12px; width:85%; padding:12px 14px; border-radius:12px; color:white; text-decoration:none; transition:all .18s; font-weight:500;}
+    nav a i{ width:26px;text-align:center }
+    nav a:hover, nav a.active{ background:rgba(255,255,255,0.12); transform:translateX(4px) }
+    .main{ margin-left:260px; flex:1; padding:30px 40px; transition:all .3s }
+    header{
+      background:rgba(255,255,255,0.8); backdrop-filter:blur(8px);
+      border-radius:12px;padding:16px 20px; display:flex; justify-content:space-between; align-items:center;
+      box-shadow:0 6px 15px rgba(0,0,0,0.08); position:sticky; top:10px; z-index:50;
+    }
+    header h1{ color:#0b63e5; margin:0; font-size:1.4rem }
+    .user-menu{ position:relative }
+    .user-icon{ font-size:2rem; color:#0b63e5; cursor:pointer; padding:6px }
+    .dropdown-menu{ display:none; position:absolute; right:0; top:44px; background:#fff; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.12); overflow:hidden; min-width:160px }
+    .dropdown-menu a{ display:block; padding:10px 14px; color:#2c3e50; text-decoration:none }
+    .dropdown-menu a:hover{ background:#f1f8ff; color:#0b63e5 }
+    
+      #contenido{ background:white; border-radius:12px; padding:26px; box-shadow:0 6px 18px rgba(0,0,0,0.06); min-height:360px; margin-top: 20px; }
+    
+    
+    .form-row{ display:flex; gap:16px; margin-bottom:12px; flex-wrap:wrap }
+    .form-group{ flex:1; display:flex; flex-direction:column; gap:8px; min-width: 200px; }
+    label{ font-size:0.95rem; color:#34495e; font-weight: 500; }
+    input[type="text"], input[type="date"], input[type="email"], input[type="password"], select, textarea{
+      padding:10px;border-radius:10px;border:1px solid #d7dbe0;font-size:0.95rem;outline:none;
+    }
+    textarea{ min-height:120px; resize:vertical }
+    input:focus, select:focus, textarea:focus{ box-shadow:0 0 10px rgba(11,99,229,0.12); border-color:#0b63e5 }
+    
+
+    .btn-registrar, .btn-enviar, .btn-guardar, .btn-actualizar{
+      background:linear-gradient(90deg,#0b63e5,#00b4ff); color:white; border:none; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:600; transition: all 0.2s;
+    }
+    .btn-registrar:hover, .btn-enviar:hover, .btn-guardar:hover, .btn-actualizar:hover{ transform:scale(1.02) }
+    .btn-eliminar {
+      background: #e74c3c; color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 500;
+    }
+    .btn-eliminar:hover { background: #c0392b; }
+    
+  
+    table{ width:100%; border-collapse:collapse; margin-top:12px }
+    th, td{ border-bottom:1px solid #eee; padding:10px; text-align:center }
+    th{ background:#0b63e5; color:#fff }
+    tr:hover{ background:#f4f9ff }
+    
+
+    .dashboard-cards {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    .card {
+      background: linear-gradient(135deg, #0b63e5, #00b4ff);
+      color: white;
+      border-radius: 12px;
+      padding: 20px;
+      flex: 1;
+      min-width: 200px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.2rem;
+    }
+    .card .number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .card .link {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .seccion-titulo {
+      color: #0b63e5;
+      border-bottom: 2px solid #0b63e5;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    
+  
+    @media (max-width:900px){
+      .sidebar{ position:relative; width:100%; height:auto; padding-bottom:12px }
+      .main{ margin-left:0; padding:16px }
+      .form-row{ flex-direction:column }
+      .dashboard-cards { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div style="position:fixed;right:20px;top:14px;z-index:2000"></div>
+  <aside class="sidebar">
+    <div class="brand">
+      <i class="fas fa-book-open"></i>
+      <h1>EDUCATIONAL HARMONIE</h1>
+    </div>
+    <nav>
+      <a href="#" id="link-dashboard" class="active"><i class="fa-solid fa-home"></i> Inicio</a>
+      <a href="#" id="link-registrar"><i class="fa-solid fa-pen-nib"></i> Registrar Reporte</a>
+      <a href="#" id="link-ver"><i class="fa-solid fa-folder-open"></i> Historial de Reportes</a>
+      <a href="#" id="link-quejas"><i class="fa-solid fa-comments"></i> Quejas</a>
+      <a href="#" id="link-not"><i class="fa-solid fa-bell"></i> Notificar</a>
+    </nav>
+  </aside>
+  <main class="main">
+    <header>
+      <h1>PANEL DOCENTE</h1>
+      <div class="user-menu">
+        <i class="fa-solid fa-user-graduate user-icon" id="userIcon"></i>
+        <div class="dropdown-menu" id="userDropdown">
+          <a href="#">Perfil</a>
+          <a href="#" id="logout">Cerrar sesión</a>
+        </div>
+      </div>
+    </header>
+    <section id="contenido">
+    
+      <h2 class="seccion-titulo">Panel de Control Docente</h2>
+          
+      <div class="dashboard-cards">
+        <div class="card">
+          <h3>Reportes Registrados</h3>
+          <div class="number">0</div>
+          <a href="#" class="link" id="verReportesCard">Ver todo <i class="fa-regular fa-smile"></i></a>
+        </div>
+        <div class="card">
+          <h3>Quejas Recibidas</h3>
+          <div class="number">0</div>
+          <a href="#" class="link" id="verQuejasCard">Ver todo <i class="fa-regular fa-smile"></i></a>
+        </div>
+        <div class="card">
+          <h3>Notificaciones Enviadas</h3>
+          <div class="number">0</div>
+          <a href="#" class="link" id="verNotificacionesCard">Ver todo <i class="fa-regular fa-smile"></i></a>
+        </div>
+      </div>
+      
+      <div style="margin-top: 30px;">
+        <h3>Bienvenido al Panel Docente</h3>
+        <p>Selecciona una opción del menú para comenzar a gestionar tus actividades.</p>
+      </div>
+    </section>
+  </main>
+  <script>
+ 
+    const STORAGE_REPORTES = 'docente_reportes_v1';
+    const STORAGE_QUEJAS = 'docente_quejas_v1';
+    const STORAGE_NOTIFICACIONES = 'docente_notificaciones_v1';
+    const STORAGE_NOTIFICACIONES_ACUDIENTES = 'docente_notificaciones_acudientes_v1';
+    
+    let reportes = JSON.parse(localStorage.getItem(STORAGE_REPORTES) || '[]');
+    let quejas = JSON.parse(localStorage.getItem(STORAGE_QUEJAS) || '[]');
+    let notificaciones = JSON.parse(localStorage.getItem(STORAGE_NOTIFICACIONES) || '[]');
+    let notificacionesAcudientes = JSON.parse(localStorage.getItem(STORAGE_NOTIFICACIONES_ACUDIENTES) || '[]');
+    
+ 
+    function saveReportes(){ localStorage.setItem(STORAGE_REPORTES, JSON.stringify(reportes)); }
+    function saveQuejas(){ localStorage.setItem(STORAGE_QUEJAS, JSON.stringify(quejas)); }
+    function saveNotificaciones(){ localStorage.setItem(STORAGE_NOTIFICACIONES, JSON.stringify(notificaciones)); }
+    function saveNotificacionesAcudientes(){ localStorage.setItem(STORAGE_NOTIFICACIONES_ACUDIENTES, JSON.stringify(notificacionesAcudientes)); }
+   
+    function marcarActivo(id){ 
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+      if (id) document.getElementById(id).classList.add('active');
+    }
+    
+
+    function cargarVista(vista){
+      const contenido = document.getElementById('contenido');
+      
+      if(vista === 'dashboard'){
+        marcarActivo('link-dashboard');
+        contenido.innerHTML = `
+          <h2 class="seccion-titulo">Panel de Control Docente</h2>
+          
+          <div class="dashboard-cards">
+            <div class="card">
+              <h3>Reportes Registrados</h3>
+              <div class="number">${reportes.length}</div>
+              <a href="#" class="link" id="verReportesCard">Ver todo <i class="fa-regular fa-smile"></i></a>
+            </div>
+            <div class="card">
+              <h3>Quejas Recibidas</h3>
+              <div class="number">${quejas.length}</div>
+              <a href="#" class="link" id="verQuejasCard">Ver todo <i class="fa-regular fa-smile"></i></a>
+            </div>
+            <div class="card">
+              <h3>Notificaciones Enviadas</h3>
+              <div class="number">${notificacionesAcudientes.length}</div>
+              <a href="#" class="link" id="verNotificacionesCard">Ver todo <i class="fa-regular fa-smile"></i></a>
+            </div>
+          </div>
+          
+          <div style="margin-top: 30px;">
+            <h3>Bienvenido al Panel Docente</h3>
+            <p>Selecciona una opción del menú para comenzar a gestionar tus actividades.</p>
+          </div>
+        `;
+        
+       
+        document.getElementById('verReportesCard').addEventListener('click', (e) => {
+          e.preventDefault();
+          cargarVista('verReportes');
+        });
+        document.getElementById('verQuejasCard').addEventListener('click', (e) => {
+          e.preventDefault();
+          cargarVista('verQuejas');
+        });
+        document.getElementById('verNotificacionesCard').addEventListener('click', (e) => {
+          e.preventDefault();
+          cargarVista('notificar');
+        });
+        
+        return;
+      }
+      
+      if(vista === 'registrar'){
+        marcarActivo('link-registrar');
+        contenido.innerHTML = `
+          <h2 class="seccion-titulo">Registrar Reporte para Acudiente</h2>
+          <form id="formReporte">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nombreEstudiante">Nombre del Estudiante</label>
+                <input id="nombreEstudiante" type="text" required>
+              </div>
+              <div class="form-group">
+                <label for="curso">Curso</label>
+                <select id="curso" required>
+                  <option value="">Seleccione un curso</option>
+                  <option value="Primero Primaria">Primero Primaria</option>
+                  <option value="Segundo Primaria">Segundo Primaria</option>
+                  <option value="Tercero Primaria">Tercero Primaria</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="acudiente">Acudiente</label>
+                <select id="acudiente" required>
+                  <option value="">Seleccione un acudiente</option>
+                  <option value="Padre">Padre</option>
+                  <option value="Madre">Madre</option>
+                  <option value="Tutor">Tutor</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="fecha">Fecha</label>
+                <input id="fecha" type="date" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="tipoReporte">Tipo de Reporte</label>
+                <select id="tipoReporte" required>
+                  <option value="">Seleccione un tipo</option>
+                  <option value="Comportamiento">Comportamiento</option>
+                  <option value="Académico">Académico</option>
+                  <option value="Asistencia">Asistencia</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="motivo">Motivo</label>
+                <input id="motivo" type="text" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="descripcion">Descripción</label>
+              <textarea id="descripcion" required></textarea>
+            </div>
+            <div style="margin-top:8px">
+              <button type="submit" class="btn-registrar"><i class="fa-solid fa-save"></i> Registrar y Notificar</button>
+            </div>
+          </form>
+        `;
+        
+        document.getElementById('formReporte').addEventListener('submit', (e)=>{
+          e.preventDefault();
+          const r = {
+            nombreEstudiante: document.getElementById('nombreEstudiante').value.trim(),
+            curso: document.getElementById('curso').value,
+            acudiente: document.getElementById('acudiente').value,
+            tipoReporte: document.getElementById('tipoReporte').value,
+            motivo: document.getElementById('motivo').value.trim(),
+            fecha: document.getElementById('fecha').value,
+            descripcion: document.getElementById('descripcion').value.trim()
+          };
+          reportes.push(r); 
+          saveReportes();
+          
+      
+          const notificacion = {
+            destinatario: r.acudiente,
+            estudiante: r.nombreEstudiante,
+            asunto: `Reporte de ${r.tipoReporte} - ${r.nombreEstudiante}`,
+            mensaje: r.descripcion,
+            fecha: new Date().toISOString().split('T')[0],
+            tipo: 'reporte'
+          };
+          notificacionesAcudientes.push(notificacion);
+          saveNotificacionesAcudientes();
+          
+          alert('✅ Reporte registrado y notificación enviada al acudiente');
+          e.target.reset();
+        });
+        return;
+      }
+      
+      if(vista === 'ver'){
+        marcarActivo('link-ver');
+        if(reportes.length === 0){
+          contenido.innerHTML = `
+            <h2 class="seccion-titulo">Historial de Reportes</h2>
+            <p>No hay reportes aún.</p>
+          `;
+          return;
+        }
+        contenido.innerHTML = `
+          <h2 class="seccion-titulo">Historial de Reportes</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Estudiante</th>
+                <th>Curso</th>
+                <th>Acudiente</th>
+                <th>Tipo</th>
+                <th>Motivo</th>
+                <th>Fecha</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${reportes.map((r, i) => `
+                <tr>
+                  <td>${escapeHtml(r.nombreEstudiante)}</td>
+                  <td>${escapeHtml(r.curso)}</td>
+                  <td>${escapeHtml(r.acudiente)}</td>
+                  <td>${escapeHtml(r.tipoReporte)}</td>
+                  <td>${escapeHtml(r.motivo)}</td>
+                  <td>${escapeHtml(r.fecha)}</td>
+                  <td style="text-align:left;padding-left:12px">${escapeHtml(r.descripcion)}</td>
+                  <td>
+                    <button onclick="editarReporte(${i})" class="btn-actualizar">✏️</button>
+                    <button onclick="eliminarReporte(${i})" class="btn-eliminar">🗑️</button>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+        return;
+      }
+      
+      if(vista === 'quejas'){
+        marcarActivo('link-quejas');
+        if(quejas.length === 0){
+          contenido.innerHTML = `
+            <h2 class="seccion-titulo">Quejas de Acudientes</h2>
+            <p>No hay quejas registradas aún.</p>
+          `;
+          return;
+        }
+        contenido.innerHTML = `
+          <h2 class="seccion-titulo">Quejas de Acudientes</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Acudiente</th>
+                <th>Estudiante</th>
+                <th>Fecha</th>
+                <th>Asunto</th>
+                <th>Mensaje</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${quejas.map((q, i) => `
+                <tr>
+                  <td>${escapeHtml(q.acudiente)}</td>
+                  <td>${escapeHtml(q.estudiante)}</td>
+                  <td>${escapeHtml(q.fecha)}</td>
+                  <td>${escapeHtml(q.asunto)}</td>
+                  <td style="text-align:left;padding-left:12px">${escapeHtml(q.mensaje)}</td>
+                  <td>${q.estado === 'resuelta' ? '<span style="color:green">Resuelta</span>' : '<span style="color:orange">Pendiente</span>'}</td>
+                  <td>
+                    ${q.estado === 'pendiente' ? `<button onclick="resolverQueja(${i})" class="btn-actualizar">Resolver</button>` : ''}
+                    <button onclick="eliminarQueja(${i})" class="btn-eliminar">🗑️</button>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+        return;
+      }
+      
+      if(vista === 'not'){
+        marcarActivo('link-not');
+        contenido.innerHTML = `
+          <h2 class="seccion-titulo">Enviar Notificación</h2>
+          <form id="formNotificacion">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="destinatario">Destinatario</label>
+                <select id="destinatario" required>
+                  <option value="">Seleccione un destinatario</option>
+                  <option value="Administración">Administración</option>
+                  <option value="Coordinación">Coordinación</option>
+                  <option value="Padres de Familia">Padres de Familia</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="asunto">Asunto</label>
+                <input id="asunto" type="text" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="mensaje">Mensaje</label>
+              <textarea id="mensaje" required></textarea>
+            </div>
+            <div>
+              <button class="btn-enviar" type="submit"><i class="fa-solid fa-paper-plane"></i> Enviar</button>
+            </div>
+          </form>
+          
+          <div style="margin-top: 30px;">
+            <h3>Historial de Notificaciones</h3>
+            ${notificaciones.length === 0 ? 
+              '<p>No hay notificaciones enviadas.</p>' : 
+              `<table>
+                <thead>
+                  <tr>
+                    <th>Destinatario</th>
+                    <th>Asunto</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${notificaciones.map(n => `
+                    <tr>
+                      <td>${escapeHtml(n.destinatario)}</td>
+                      <td>${escapeHtml(n.asunto)}</td>
+                      <td>${escapeHtml(n.fecha)}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>`}
+          </div>
+          
+          <div style="margin-top: 30px;">
+            <h3>Notificaciones a Acudientes</h3>
+            ${notificacionesAcudientes.length === 0 ? 
+              '<p>No hay notificaciones enviadas a acudientes.</p>' : 
+              `<table>
+                <thead>
+                  <tr>
+                    <th>Destinatario</th>
+                    <th>Estudiante</th>
+                    <th>Asunto</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${notificacionesAcudientes.map(n => `
+                    <tr>
+                      <td>${escapeHtml(n.destinatario)}</td>
+                      <td>${escapeHtml(n.estudiante)}</td>
+                      <td>${escapeHtml(n.asunto)}</td>
+                      <td>${escapeHtml(n.fecha)}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>`}
+          </div>
+        `;
+        
+        document.getElementById('formNotificacion').addEventListener('submit', e => {
+          e.preventDefault();
+          const notificacion = {
+            destinatario: document.getElementById('destinatario').value,
+            asunto: document.getElementById('asunto').value.trim(),
+            mensaje: document.getElementById('mensaje').value.trim(),
+            fecha: new Date().toISOString().split('T')[0]
+          };
+          notificaciones.push(notificacion);
+          saveNotificaciones();
+          alert('📨 Notificación enviada correctamente');
+          e.target.reset();
+          cargarVista('not');
+        });
+        return;
+      }
+    }
+    
+   
+    function editarReporte(i) {
+     
+      alert('Funcionalidad de edición en desarrollo');
+    }
+    
+    function eliminarReporte(i) {
+      if(confirm('¿Desea eliminar este reporte?')) {
+        reportes.splice(i,1);
+        saveReportes();
+        cargarVista('ver');
+      }
+    }
+    
+
+    function resolverQueja(i) {
+      if(confirm('¿Marcar esta queja como resuelta?')) {
+        quejas[i].estado = 'resuelta';
+        saveQuejas();
+        cargarVista('quejas');
+      }
+    }
+    
+    function eliminarQueja(i) {
+      if(confirm('¿Desea eliminar esta queja?')) {
+        quejas.splice(i,1);
+        saveQuejas();
+        cargarVista('quejas');
+      }
+    }
+    
+
+    function escapeHtml(s){ 
+      if(!s) return ''; 
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); 
+    }
+    
+  
+    document.addEventListener('DOMContentLoaded', ()=>{
+  
+      document.querySelectorAll('nav a').forEach(a => {
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          const vista = a.id.replace('link-', '');
+          cargarVista(vista);
+        });
+      });
+      
+
+      const userIcon = document.getElementById('userIcon');
+      const userDropdown = document.getElementById('userDropdown');
+      userIcon.addEventListener('click', ()=>{ 
+        userDropdown.style.display = userDropdown.style.display === 'block' ? 'none' : 'block'; 
+      });
+      document.addEventListener('click', (e)=>{ 
+        if(!userIcon.contains(e.target) && !userDropdown.contains(e.target)){ 
+          userDropdown.style.display = 'none'; 
+        } 
+      });
+      
+
+      document.getElementById('logout').addEventListener('click', () => {
+        window.location.href = '/logout';
+      });
+    });
+  </script>
+</body>
+</html>

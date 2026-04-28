@@ -1,0 +1,21 @@
+# Maven
+target/
+*.class
+*.jar
+
+# IDE
+.idea/
+.vscode/settings.json
+*.iml
+*.iws
+*.ipr
+
+# FIX CRÍTICO: nunca subir credenciales al repositorio
+src/main/resources/application.properties
+
+# Sí subir el archivo de plantilla (sin datos reales)
+!src/main/resources/application.properties.example
+
+# OS
+.DS_Store
+Thumbs.db

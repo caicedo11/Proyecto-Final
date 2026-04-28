@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel Administrador | Educational Harmonie</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<style>
+* { box-sizing: border-box; }
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #eef3fa, #ffffff);
+  margin: 0;
+  display: flex;
+  min-height: 100vh;
+  color: #2c3e50;
+  overflow-x: hidden;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 260px;
+  background: linear-gradient(180deg, #0b63e5, #00b4ff);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px 0;
+  box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+  position: fixed;
+  height: 100vh;
+  z-index: 1000;
+  overflow-y: auto;
+}
+.brand {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 0 15px;
+}
+.brand i {
+  font-size: 3rem;
+  color: #fff;
+  margin-bottom: 10px;
+  display: block;
+}
+.brand h1 {
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  margin: 0;
+}
+nav {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 0;
+}
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 85%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+  transition: all 0.18s;
+  font-weight: 500;
+}
+nav a i {
+  width: 26px;
+  text-align: center;
+}
+nav a:hover, nav a.active {
+  background: rgba(255,255,255,0.12);
+  transform: translateX(4px);
+}
+
+/* ===== MAIN ===== */
+.main {
+  margin-left: 260px;
+  flex: 1;
+  padding: 30px 40px;
+  transition: all 0.3s;
+}
+header {
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 10px;
+  z-index: 50;
+}
+header h1 {
+  color: #0b63e5;
+  margin: 0;
+  font-size: 1.4rem;
+}
+.user-menu {
+  position: relative;
+}
+.user-icon {
+  font-size: 2rem;
+  color: #0b63e5;
+  cursor: pointer;
+  padding: 6px;
+}
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 44px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  overflow: hidden;
+  min-width: 160px;
+}
+.dropdown-menu a {
+  display: block;
+  padding: 10px 14px;
+  color: #2c3e50;
+  text-decoration: none;
+}
+.dropdown-menu a:hover {
+  background: #f1f8ff;
+  color: #0b63e5;
+}
+
+/* ===== CONTENIDO ===== */
+#contenido {
+  background: white;
+  border-radius: 12px;
+  padding: 26px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  min-height: 360px;
+  margin-top: 20px;
+}
+
+/* ===== FORMULARIOS ===== */
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 200px;
+}
+label {
+  font-size: 0.95rem;
+  color: #34495e;
+  font-weight: 500;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #d7dbe0;
+  font-size: 0.95rem;
+  outline: none;
+  font-family: inherit;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  box-shadow: 0 0 10px rgba(11,99,229,0.12);
+  border-color: #0b63e5;
+}
+.btn-registrar,
+.btn-actualizar,
+.btn-guardar {
+  background: linear-gradient(90deg, #0b63e5, #00b4ff);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.btn-registrar:hover,
+.btn-actualizar:hover,
+.btn-guardar:hover {
+  transform: scale(1.02);
+}
+.btn-eliminar {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.btn-eliminar:hover {
+  background: #c0392b;
+}
+
+/* ===== TABLAS ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+th, td {
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+  text-align: center;
+}
+th {
+  background: #0b63e5;
+  color: #fff;
+}
+tr:hover {
+  background: #f4f9ff;
+}
+
+/* ===== DASHBOARD ===== */
+.dashboard-cards {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+.card {
+  background: linear-gradient(135deg, #0b63e5, #00b4ff);
+  color: white;
+  border-radius: 12px;
+  padding: 20px;
+  flex: 1;
+  min-width: 200px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+.card h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+}
+.card .number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.card .link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ===== SECCIONES ===== */
+.seccion-titulo {
+  color: #0b63e5;
+  border-bottom: 2px solid #0b63e5;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* ===== BADGES ===== */
+.badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.badge-warning {
+  background: #ffc107;
+  color: #000;
+}
+.badge-success {
+  background: #28a745;
+  color: white;
+}
+.badge-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+/* ===== MODAL ===== */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* ===== LOADING ===== */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #0b63e5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding-bottom: 12px;
+  }
+  .main {
+    margin-left: 0;
+    padding: 16px;
+  }
+  .form-row {
+    flex-direction: column;
+  }
+  .dashboard-cards {
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand">
+    <i class="fas fa-book-open"></i>
+    <h1>EDUCATIONAL HARMONIE</h1>
+  </div>
+  <nav>
+    <a href="#" id="link-dashboard" class="active"><i class="fa-solid fa-home"></i> Inicio</a>
+    <a href="#" id="link-usuarios"><i class="fa-solid fa-users-gear"></i> Usuarios</a>
+    
+    <a href="#" id="link-invitaciones"><i class="fa-solid fa-envelope-circle-check"></i> Invitar Usuarios</a>
+    <a href="#" id="link-estudiantes"><i class="fa-solid fa-user-graduate"></i> Estudiantes</a>
+    <a href="#" id="link-historial"><i class="fa-solid fa-history"></i> Historial Disciplinario</a>
+    <a href="#" id="link-notificaciones"><i class="fa-solid fa-bell"></i> Notificaciones</a>
+  </nav>
+</aside>
+
+<main class="main">
+  <header>
+    <h1>PANEL ADMINISTRADOR</h1>
+    <div class="user-menu">
+      <i class="fa-solid fa-user-graduate user-icon" id="userIcon"></i>
+      <div class="dropdown-menu" id="userDropdown">
+        <a href="#">Perfil</a>
+        <a href="#" id="logout">Cerrar sesión</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="contenido">
+    
+  </section>
+</main>
+
+<div id="modalRevisar" class="modal">
+  <div class="modal-content">
+    <h3>Revisar Registro</h3>
+    <div id="detallesRegistro"></div>
+    <div class="form-row" style="margin-top: 20px;">
+      <div class="form-group">
+        <label>Usuario generado *</label>
+        <input type="text" id="usuarioGenerado" placeholder="Ej: juan.perez">
+      </div>
+      <div class="form-group">
+        <label>Contraseña temporal *</label>
+        <input type="text" id="passwordGenerado" placeholder="Ej: Temp123!">
+      </div>
+    </div>
+    <div style="margin-top: 20px; display: flex; gap: 10px;">
+      <button class="btn-registrar" id="btnAprobar">Aprobar y Enviar Credenciales</button>
+      <button class="btn-eliminar" id="btnRechazar">Rechazar</button>
+      <button class="btn-guardar" id="btnCerrarModal">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let usuarios = [];
+let estudiantes = [];
+let invitaciones = [];
+let registrosPendientes = [];
+let historial = [];
+let notificaciones = [];
+
+function marcarActivo(id) { 
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active')); 
+  if(id) document.getElementById(id).classList.add('active'); 
+}
+
+
+
+
+async function cargarUsuarios() {
+  try {
+    const response = await fetch('/admin/usuarios/listar');
+    if (response.ok) {
+      usuarios = await response.json();
+    }
+  } catch (error) {
+    console.error('Error cargando usuarios:', error);
+  }
+}
+
+
+async function cargarInvitaciones() {
+  try {
+    const response = await fetch('/admin/invitaciones/listar');
+    if (response.ok) {
+      invitaciones = await response.json();
+    }
+  } catch (error) {
+    console.error('Error cargando invitaciones:', error);
+  }
+}
+
+
+async function cargarPendientes() {
+  try {
+    const response = await fetch('/admin/pendientes/listar');
+    if (response.ok) {
+      registrosPendientes = await response.json();
+    }
+  } catch (error) {
+    console.error('Error cargando pendientes:', error);
+  }
+}
+
+async function cargarEstudiantes() {
+  try {
+    const response = await fetch('/admin/estudiantes/listar');
+    if (response.ok) {
+      estudiantes = await response.json();
+    }
+  } catch (error) {
+    console.error('Error cargando estudiantes:', error);
+  }
+}
+
+
+async function cargarTodosLosDatos() {
+  await Promise.all([
+    cargarUsuarios(),
+    cargarInvitaciones(),
+    cargarPendientes(),
+    cargarEstudiantes()
+  ]);
+}
+
+async function cargarVista(vista) {
+  const contenido = document.getElementById('contenido');
+  
+
+  if(vista === 'dashboard') {
+    marcarActivo('link-dashboard');
+
+    await cargarTodosLosDatos();
+    
+    contenido.innerHTML = `
+      <h2 class="seccion-titulo">Panel de Control</h2>
+      
+      <div class="dashboard-cards">
+        <div class="card">
+          <h3>Estudiantes Registrados</h3>
+          <div class="number">${estudiantes.length}</div>
+          <a href="#" class="link" id="verEstudiantes">Ver todo <i class="fa-regular fa-smile"></i></a>
+        </div>
+        <div class="card">
+          <h3>Usuarios Registrados</h3>
+          <div class="number">${usuarios.length}</div>
+          <a href="#" class="link" id="verUsuarios">Ver todo <i class="fa-regular fa-smile"></i></a>
+        </div>
+        <div class="card">
+          <h3>Reportes Disciplinarios</h3>
+          <div class="number">${historial.length}</div>
+          <a href="#" class="link" id="verHistorial">Ver todo <i class="fa-regular fa-smile"></i></a>
+        </div>
+        <div class="card">
+          <h3>Invitaciones Pendientes</h3>
+          <div class="number">${invitaciones.filter(i => i.estado === 'PENDIENTE').length}</div>
+          <a href="#" class="link" id="verInvitaciones">Ver todo <i class="fa-regular fa-smile"></i></a>
+        </div>
+      </div>
+      
+      <div style="margin-top: 30px;">
+        <h3>Indicador | Panel de Control</h3>
+        <p>Bienvenido al panel de administración de Educational Harmonie. Desde aquí puedes gestionar todos los aspectos del sistema.</p>
+      </div>
+    `;
+    
+ 
+    document.getElementById('verEstudiantes').addEventListener('click', (e) => {
+      e.preventDefault();
+      cargarVista('estudiantes');
+    });
+    document.getElementById('verUsuarios').addEventListener('click', (e) => {
+      e.preventDefault();
+      cargarVista('usuarios');
+    });
+    document.getElementById('verHistorial').addEventListener('click', (e) => {
+      e.preventDefault();
+      cargarVista('historial');
+    });
+    document.getElementById('verInvitaciones').addEventListener('click', (e) => {
+      e.preventDefault();
+      cargarVista('invitaciones');
+    });
+    
+    return;
+  }
+
+  if(vista === 'usuarios') {
+    marcarActivo('link-usuarios');
+    
+    await cargarUsuarios();
+    
+    contenido.innerHTML = `
+      <h2 class="seccion-titulo">Registro y Gestión de Usuarios</h2>
+      
+      <div style="margin-bottom: 20px;">
+        <button class="btn-registrar" id="btnNuevoUsuario"><i class="fa-solid fa-user-plus"></i> Registrar Usuario</button>
+      </div>
+      
+      <div id="formularioUsuario" style="display: none; margin-bottom: 30px;">
+        <h3>Agregar Usuario</h3>
+        <form id="formRegistro">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nombres del Usuario *</label>
+              <input type="text" id="nombre" required placeholder="Ej. John">
+            </div>
+            <div class="form-group">
+              <label>Apellidos del Usuario *</label>
+              <input type="text" id="apellido" required placeholder="Ej. Pérez">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Selecciona un Rol *</label>
+              <select id="rol" required>
+                <option value="" disabled selected>No se ha seleccionado</option>
+                <option value="ACUDIENTE">Acudiente</option>
+                <option value="DOCENTE">Docente</option>
+                <option value="ADMIN">Administrador</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Teléfono del Usuario *</label>
+              <input type="text" id="telefono" required placeholder="Ej. +502.0000000">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Dirección del Usuario</label>
+              <input type="text" id="direccion" placeholder="Ej. Zona 0, Avenida 7-40">
+            </div>
+            <div class="form-group">
+              <label>Correo del Usuario *</label>
+              <input type="email" id="correo" required placeholder="correo@correo.com">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Contraseña del Usuario *</label>
+              <input type="password" id="contraseña" required placeholder="Escriba una Contraseña">
+              <label><input type="checkbox" id="mostrarContraseña"> Mostrar Contraseña</label>
+            </div>
+          </div>
+          <div style="margin-top:10px">
+            <button type="submit" class="btn-registrar">Registrar</button>
+            <button type="button" class="btn-eliminar" id="cancelarRegistro">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      
+      <h3>Lista de Usuarios</h3>
+      ${usuarios.length === 0 ? 
+        '<p>No hay usuarios registrados.</p>' : 
+        `<table>
+          <thead>
+            <tr><th>Nombre</th><th>Apellido</th><th>Correo</th><th>Rol</th><th>Teléfono</th><th>Acciones</th></tr>
+          </thead>
+          <tbody>
+            ${usuarios.map((u,i)=>`
+              <tr>
+                <td>${u.nombre}</td>
+                <td>${u.apellido}</td>
+                <td>${u.correo}</td>
+                <td>${u.rol}</td>
+                <td>${u.telefono || ''}</td>
+                <td>
+                  <button onclick="editarUsuarioModal(${u.id})" class="btn-actualizar">✏️</button>
+                  <button onclick="eliminarUsuario(${u.id})" class="btn-eliminar">🗑️</button>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`}
+    `;
+ 
+    document.getElementById('btnNuevoUsuario').addEventListener('click', () => {
+      document.getElementById('formularioUsuario').style.display = 'block';
+    });
+    
+    document.getElementById('cancelarRegistro').addEventListener('click', () => {
+      document.getElementById('formularioUsuario').style.display = 'none';
+      document.getElementById('formRegistro').reset();
+    });
+
+    document.getElementById('mostrarContraseña').addEventListener('change', function() {
+      const passwordField = document.getElementById('contraseña');
+      passwordField.type = this.checked ? 'text' : 'password';
+    });
+    
+ 
+    document.getElementById('formRegistro').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const usuarioData = {
+        nombre: document.getElementById('nombre').value.trim(),
+        apellido: document.getElementById('apellido').value.trim(),
+        correo: document.getElementById('correo').value.trim(),
+        contraseña: document.getElementById('contraseña').value,
+        rol: document.getElementById('rol').value,
+        telefono: document.getElementById('telefono').value.trim(),
+        direccion: document.getElementById('direccion').value.trim()
+      };
+      
+      try {
+        const response = await fetch('/admin/usuarios/crear-directo', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(usuarioData)
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          alert('✅ Usuario registrado correctamente');
+          e.target.reset();
+          document.getElementById('formularioUsuario').style.display = 'none';
+          await cargarUsuarios();
+          cargarVista('usuarios');
+        } else {
+          alert('❌ Error: ' + data.error);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('❌ Error de conexión con el servidor');
+      }
+    });
+    
+    return;
+  }
+  
+
+  if(vista === 'invitaciones') {
+    marcarActivo('link-invitaciones');
+    
+    // Cargar datos actualizados
+    await cargarInvitaciones();
+    await cargarPendientes();
+    
+    contenido.innerHTML = `
+      <h2 class="seccion-titulo">Invitar Nuevos Usuarios</h2>
+      
+      <div class="card" style="margin-bottom: 20px;">
+        <h3>Generar Nueva Invitación</h3>
+        <form id="formInvitacion">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Correo del Invitado *</label>
+              <input type="email" id="correoInvitado" required placeholder="correo@ejemplo.com">
+            </div>
+            <div class="form-group">
+              <label>Rol *</label>
+              <select id="rolInvitado" required>
+                <option value="">Seleccionar...</option>
+                <option value="DOCENTE">Docente</option>
+                <option value="ACUDIENTE">Acudiente</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tiempo de validez *</label>
+              <select id="horasValidez" required>
+                <option value="24">24 horas</option>
+                <option value="48" selected>48 horas</option>
+                <option value="72">72 horas</option>
+                <option value="168">7 días</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-registrar" id="btnGenerarInvitacion">
+            <i class="fa-solid fa-paper-plane"></i> Generar Invitación
+          </button>
+        </form>
+      </div>
+      
+      <div id="resultadoInvitacion" style="display: none; margin: 15px 0; padding: 10px; border-radius: 8px;"></div>
+      
+      <div class="card">
+        <h3>Invitaciones Activas</h3>
+        <div id="listaInvitaciones">
+          ${invitaciones.length === 0 ? 
+            '<p>No hay invitaciones generadas.</p>' : 
+            `<table>
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Correo</th>
+                  <th>Rol</th>
+                  <th>Expira</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${invitaciones.map((inv) => {
+                  const expirada = new Date(inv.fechaExpiracion) < new Date();
+                  const estado = expirada ? 'EXPIRADA' : inv.estado || 'PENDIENTE';
+                  let estadoBadge = '';
+                  if (estado === 'PENDIENTE') estadoBadge = '<span class="badge badge-warning">Pendiente</span>';
+                  else if (estado === 'COMPLETADA') estadoBadge = '<span class="badge badge-success">Completada</span>';
+                  else if (estado === 'EXPIRADA') estadoBadge = '<span class="badge badge-secondary">Expirada</span>';
+                  
+                  return `
+                    <tr>
+                      <td><code>${inv.codigo}</code></td>
+                      <td>${inv.correoInvitado}</td>
+                      <td>${inv.rol}</td>
+                      <td>${new Date(inv.fechaExpiracion).toLocaleString()}</td>
+                      <td>${estadoBadge}</td>
+                      <td>
+                        <button onclick="copiarEnlace('${inv.codigo}')" class="btn-guardar" style="padding: 5px 8px;">
+                          <i class="fa-solid fa-copy"></i> Copiar
+                        </button>
+                        <button onclick="eliminarInvitacion(${inv.id})" class="btn-eliminar" style="padding: 5px 8px;">
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>`}
+        </div>
+      </div>
+      
+      <div class="card" style="margin-top: 20px;">
+        <h3>Registros Pendientes de Revisión</h3>
+        <div id="pendientesRevision">
+          ${registrosPendientes.length === 0 ? 
+            '<p>No hay registros pendientes de revisión.</p>' : 
+            `<table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Correo</th>
+                  <th>Rol</th>
+                  <th>Fecha</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${registrosPendientes.map((p) => `
+                  <tr>
+                    <td>${p.id}</td>
+                    <td>${p.correo}</td>
+                    <td>${p.rol}</td>
+                    <td>${new Date(p.fechaCompletado).toLocaleDateString()}</td>
+                    <td>
+                      <button onclick="revisarRegistro(${p.id})" class="btn-guardar" style="padding: 5px 8px;">
+                        <i class="fa-solid fa-eye"></i> Revisar
+                      </button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>`}
+        </div>
+      </div>
+    `;
+    
+
+    document.getElementById('formInvitacion').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const btnGenerar = document.getElementById('btnGenerarInvitacion');
+      const originalText = btnGenerar.innerHTML;
+      btnGenerar.innerHTML = '<div class="loading"></div> Generando...';
+      btnGenerar.disabled = true;
+      
+      const correo = document.getElementById('correoInvitado').value;
+      const rol = document.getElementById('rolInvitado').value;
+      const horas = parseInt(document.getElementById('horasValidez').value);
+      
+      const resultadoDiv = document.getElementById('resultadoInvitacion');
+      resultadoDiv.style.display = 'none';
+      
+      try {
+      
+        const response = await fetch('/admin/invitaciones/generar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({
+            'correo': correo,
+            'rol': rol,
+            'horas': horas
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+        
+          resultadoDiv.style.display = 'block';
+          resultadoDiv.style.background = '#d4edda';
+          resultadoDiv.style.color = '#155724';
+          
+          const enlace = window.location.origin + '/registro?codigo=' + data.codigo;
+          resultadoDiv.innerHTML = `
+            <strong>✅ Invitación generada y correo enviado exitosamente</strong><br>
+            Código: <code>${data.codigo}</code><br>
+            Enlace: <small>${enlace}</small><br>
+            <button onclick="copiarEnlace('${data.codigo}')" class="btn-guardar" style="margin-top: 5px;">
+              <i class="fa-solid fa-copy"></i> Copiar Enlace
+            </button>
+          `;
+          
+        
+          await cargarInvitaciones();
+          
+         
+          document.getElementById('formInvitacion').reset();
+          
+        } else {
+    
+          resultadoDiv.style.display = 'block';
+          resultadoDiv.style.background = '#f8d7da';
+          resultadoDiv.style.color = '#721c24';
+          resultadoDiv.innerHTML = `<strong>❌ Error:</strong> ${data.error}`;
+        }
+        
+      } catch (error) {
+        console.error('Error:', error);
+        resultadoDiv.style.display = 'block';
+        resultadoDiv.style.background = '#f8d7da';
+        resultadoDiv.style.color = '#721c24';
+        resultadoDiv.innerHTML = `<strong>❌ Error de conexión:</strong> No se pudo conectar con el servidor`;
+      } finally {
+        btnGenerar.innerHTML = originalText;
+        btnGenerar.disabled = false;
+      }
+    });
+    
+    return;
+  }
+  
+
+  if(vista === 'estudiantes') {
+    marcarActivo('link-estudiantes');
+    
+    await cargarEstudiantes();
+    
+    contenido.innerHTML = `
+      <h2 class="seccion-titulo">Registro y Gestión de Estudiantes</h2>
+      
+      <div style="margin-bottom: 20px;">
+        <button class="btn-registrar" id="btnNuevoEstudiante"><i class="fa-solid fa-user-plus"></i> Registrar Estudiante</button>
+      </div>
+      
+      <div id="formularioEstudiante" style="display: none; margin-bottom: 30px;">
+        <h3>Datos del Estudiante</h3>
+        <form id="formRegistroEstudiante">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Ciclo Escolar *</label>
+              <input type="text" name="ciclo" value="2025" readonly>
+            </div>
+            <div class="form-group">
+              <label>Grado *</label>
+              <select name="grado" required>
+                <option value="">No se ha seleccionado</option>
+                <option value="Primero Primaria">Primero Primaria</option>
+                <option value="Segundo Primaria">Segundo Primaria</option>
+                <option value="Tercero Primaria">Tercero Primaria</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nombres del Estudiante *</label>
+              <input type="text" name="nombre" placeholder="Ej. John" required>
+            </div>
+            <div class="form-group">
+              <label>Apellidos del Estudiante *</label>
+              <input type="text" name="apellido" placeholder="Ej. Pérez" required>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>Teléfono *</label>
+              <input type="text" name="telefono" placeholder="00000000" required>
+            </div>
+            <div class="form-group">
+              <label>Sección *</label>
+              <select name="seccion" required>
+                <option value="A">Sección A</option>
+                <option value="B">Sección B</option>
+                <option value="C">Sección C</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>Correo del Estudiante</label>
+              <input type="email" name="correo" placeholder="Ej. correo@correo.com">
+            </div>
+            <div class="form-group">
+              <label>Dirección del Estudiante *</label>
+              <input type="text" name="direccion" placeholder="No se estableció una dirección" required>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>Edad del Estudiante</label>
+              <input type="number" name="edad" min="5" max="18" placeholder="Ej. 99">
+            </div>
+            <div class="form-group">
+              <label>Fecha de Nacimiento</label>
+              <input type="date" name="nacimiento" placeholder="Ej. dd/mm/yyyy">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>Sexo del Estudiante</label>
+              <select name="sexo">
+                <option value="">No se ha seleccionado</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Nombre del Acudiente *</label>
+              <input type="text" name="acudiente" placeholder="Nombre del acudiente" required>
+            </div>
+          </div>
+          
+          <div style="margin-top:10px">
+            <button type="submit" class="btn-registrar">Registrar Estudiante</button>
+            <button type="button" class="btn-eliminar" id="cancelarRegistroEstudiante">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      
+      <h3>Lista de Estudiantes</h3>
+      ${estudiantes.length === 0 ? 
+        '<p>No hay estudiantes registrados.</p>' : 
+        `<table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Grado</th>
+              <th>Sección</th>
+              <th>Acudiente</th>
+              <th>Teléfono</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${estudiantes.map((e)=>`
+              <tr>
+                <td>${e.nombre}</td>
+                <td>${e.apellido}</td>
+                <td>${e.grado}</td>
+                <td>${e.seccion}</td>
+                <td>${e.acudiente}</td>
+                <td>${e.telefono}</td>
+                <td>
+                  <button onclick="editarEstudianteModal(${e.id})" class="btn-actualizar">✏️</button>
+                  <button onclick="eliminarEstudiante(${e.id})" class="btn-eliminar">🗑️</button>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`}
+    `;
+    
+
+    document.getElementById('btnNuevoEstudiante').addEventListener('click', () => {
+      document.getElementById('formularioEstudiante').style.display = 'block';
+    });
+    
+    document.getElementById('cancelarRegistroEstudiante').addEventListener('click', () => {
+      document.getElementById('formularioEstudiante').style.display = 'none';
+      document.getElementById('formRegistroEstudiante').reset();
+    });
+
+    document.getElementById('formRegistroEstudiante').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const estudiante = {
+        nombre: formData.get('nombre'),
+        apellido: formData.get('apellido'),
+        grado: formData.get('grado'),
+        seccion: formData.get('seccion'),
+        telefono: formData.get('telefono'),
+        correo: formData.get('correo'),
+        direccion: formData.get('direccion'),
+        edad: formData.get('edad'),
+        nacimiento: formData.get('nacimiento'),
+        sexo: formData.get('sexo'),
+        ciclo: formData.get('ciclo'),
+        acudiente: formData.get('acudiente')
+      };
+      
+      try {
+        const response = await fetch('/admin/estudiantes/crear', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(estudiante)
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          alert('✅ Estudiante registrado correctamente');
+          e.target.reset();
+          document.getElementById('formularioEstudiante').style.display = 'none';
+          await cargarEstudiantes();
+          cargarVista('estudiantes');
+        } else {
+          alert('❌ Error: ' + data.error);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('❌ Error de conexión con el servidor');
+      }
+    });
+    
+    return;
+  }
+  
+
+  if(vista === 'historial') {
+    marcarActivo('link-historial');
+    contenido.innerHTML = `
+      <h2 class="seccion-titulo">Historial Disciplinario de Estudiantes</h2>
+      <p>Consulta los reportes disciplinarios registrados en la plataforma.</p>
+
+      <div class="form-row" style="margin-bottom: 20px;">
+        <div class="form-group">
+          <input type="text" id="buscarEstudiante" placeholder="Buscar estudiante por nombre...">
+        </div>
+        <div class="form-group">
+          <button class="btn-guardar" id="btnBuscar">Buscar</button>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Estudiante</th>
+            <th>Grado</th>
+            <th>Fecha</th>
+            <th>Docente</th>
+            <th>Motivo</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${historial.length === 0 ? 
+            `<tr>
+              <td colspan="7">No hay registros disciplinarios</td>
+            </tr>` : 
+            historial.map(h => `
+              <tr>
+                <td>${h.estudiante}</td>
+                <td>${h.grado}</td>
+                <td>${h.fecha}</td>
+                <td>${h.docente}</td>
+                <td>${h.motivo}</td>
+                <td>${h.descripcion}</td>
+                <td>
+                  ${h.estado === 'resuelto' 
+                    ? '<span style="color:green">Resuelto</span>' 
+                    : '<span style="color:orange">Pendiente</span>'}
+                </td>
+              </tr>
+            `).join('')}
+        </tbody>
+      </table>
+    `;
+
+    document.getElementById('btnBuscar').addEventListener('click', () => {
+      const termino = document.getElementById('buscarEstudiante').value.toLowerCase();
+      if (termino) {
+        const filas = document.querySelectorAll('table tbody tr');
+        filas.forEach(fila => {
+          const textoFila = fila.textContent.toLowerCase();
+          fila.style.display = textoFila.includes(termino) ? '' : 'none';
+        });
+      }
+    });
+    
+    return;
+  }
+  
+ 
+  if(vista === 'notificaciones') {
+    marcarActivo('link-notificaciones');
+    contenido.innerHTML = `
+      <h2 class="seccion-titulo">Notificaciones a Docentes</h2>
+      <p>Envía mensajes o recordatorios a los docentes registrados.</p>
+
+      <form id="formNotificacion">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="destinatario">Docente:</label>
+            <select id="destinatario" name="destinatario" required>
+              <option value="">Seleccione un docente...</option>
+              ${usuarios.filter(u => u.rol === 'DOCENTE').map(u => 
+                `<option value="${u.correo}">${u.nombre} ${u.apellido} (${u.correo})</option>`
+              ).join('')}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="asunto">Asunto:</label>
+            <input type="text" id="asunto" name="asunto" placeholder="Motivo del mensaje" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="mensaje">Mensaje:</label>
+          <textarea id="mensaje" name="mensaje" rows="4" placeholder="Escriba el mensaje aquí..." required></textarea>
+        </div>
+        <button type="submit" class="btn-guardar">Enviar notificación</button>
+      </form>
+
+      <div style="margin-top: 30px;">
+        <h3>Historial de notificaciones</h3>
+        ${notificaciones.length === 0 ? 
+          '<p>No hay notificaciones enviadas.</p>' : 
+          `<table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Docente</th>
+                <th>Asunto</th>
+                <th>Mensaje</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${notificaciones.map(n => `
+                <tr>
+                  <td>${n.fecha}</td>
+                  <td>${n.destinatario}</td>
+                  <td>${n.asunto}</td>
+                  <td>${n.mensaje}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>`}
+      </div>
+    `;
+    
+    document.getElementById('formNotificacion').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const notificacion = {
+        destinatario: formData.get('destinatario'),
+        asunto: formData.get('asunto'),
+        mensaje: formData.get('mensaje')
+      };
+      
+      try {
+        const response = await fetch('/admin/notificaciones/enviar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(notificacion)
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          alert('✅ Notificación enviada correctamente');
+          e.target.reset();
+         
+        } else {
+          alert('❌ Error: ' + data.error);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('❌ Error de conexión con el servidor');
+      }
+    });
+    
+    return;
+  }
+}
+
+
+
+function copiarEnlace(codigo) {
+  const enlace = window.location.origin + '/registro?codigo=' + codigo;
+  navigator.clipboard.writeText(enlace).then(() => {
+    alert('Enlace copiado al portapapeles: ' + enlace);
+  }).catch(err => {
+    console.error('Error al copiar:', err);
+    prompt('Copia manualmente este enlace:', enlace);
+  });
+}
+
+
+async function revisarRegistro(id) {
+  try {
+    const response = await fetch(`/admin/pendientes/detalles/${id}`);
+    if (!response.ok) {
+      throw new Error('No se pudo cargar el registro');
+    }
+    
+    const registro = await response.json();
+    const modal = document.getElementById('modalRevisar');
+    const detalles = document.getElementById('detallesRegistro');
+    
+    detalles.innerHTML = `
+      <p><strong>Correo:</strong> ${registro.correo}</p>
+      <p><strong>Rol:</strong> ${registro.rol}</p>
+      <p><strong>Nombre:</strong> ${registro.nombre} ${registro.apellido}</p>
+      <p><strong>Teléfono:</strong> ${registro.telefono || 'No proporcionado'}</p>
+      ${registro.especialidad ? `<p><strong>Especialidad:</strong> ${registro.especialidad}</p>` : ''}
+      ${registro.relacion ? `<p><strong>Relación:</strong> ${registro.relacion}</p>` : ''}
+      <p><strong>Fecha de registro:</strong> ${new Date(registro.fechaCompletado).toLocaleString()}</p>
+    `;
+    
+    
+    const usuarioGen = registro.nombre.toLowerCase() + '.' + registro.apellido.toLowerCase();
+    const passwordGen = 'Temp' + Math.random().toString(36).substring(2, 8) + '!';
+    
+    document.getElementById('usuarioGenerado').value = usuarioGen;
+    document.getElementById('passwordGenerado').value = passwordGen;
+    
+    
+    modal.dataset.registroId = id;
+    
+    modal.style.display = 'flex';
+    
+  } catch (error) {
+    console.error('Error:', error);
+    alert('❌ No se pudo cargar el registro');
+  }
+}
+
+
+async function eliminarInvitacion(id) {
+  if(!confirm('¿Desea eliminar esta invitación?')) return;
+  
+  try {
+    const response = await fetch(`/admin/invitaciones/eliminar/${id}`, {
+      method: 'DELETE'
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      alert('✅ Invitación eliminada');
+      await cargarInvitaciones();
+      cargarVista('invitaciones');
+    } else {
+      alert('❌ Error: ' + data.error);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('❌ Error de conexión con el servidor');
+  }
+}
+
+
+async function eliminarUsuario(id) {
+  if(!confirm('¿Desea eliminar este usuario?')) return;
+  
+  try {
+    const response = await fetch(`/admin/usuarios/eliminar/${id}`, {
+      method: 'DELETE'
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      alert('✅ Usuario eliminado');
+      await cargarUsuarios();
+      cargarVista('usuarios');
+    } else {
+      alert('❌ Error: ' + data.error);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('❌ Error de conexión con el servidor');
+  }
+}
+
+
+async function eliminarEstudiante(id) {
+  if(!confirm('¿Desea eliminar este estudiante?')) return;
+  
+  try {
+    const response = await fetch(`/admin/estudiantes/eliminar/${id}`, {
+      method: 'DELETE'
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      alert('✅ Estudiante eliminado');
+      await cargarEstudiantes();
+      cargarVista('estudiantes');
+    } else {
+      alert('❌ Error: ' + data.error);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('❌ Error de conexión con el servidor');
+  }
+}
+
+
+document.getElementById('btnCerrarModal').addEventListener('click', () => {
+  document.getElementById('modalRevisar').style.display = 'none';
+});
+
+
+document.getElementById('btnAprobar').addEventListener('click', async () => {
+  const modal = document.getElementById('modalRevisar');
+  const registroId = modal.dataset.registroId;
+  
+  const usuario = document.getElementById('usuarioGenerado').value;
+  const password = document.getElementById('passwordGenerado').value;
+  
+  if (!usuario || !password) {
+    alert('Por favor complete el usuario y contraseña');
+    return;
+  }
+  
+  try {
+    
+    const response = await fetch(`/admin/pendientes/aprobar/${registroId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        'usuario': usuario,
+        'password': password
+      })
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      alert('✅ Usuario aprobado y credenciales enviadas por correo');
+      
+      
+      modal.style.display = 'none';
+      
+      
+      await cargarPendientes();
+      await cargarUsuarios();
+      await cargarInvitaciones();
+      
+      cargarVista('invitaciones');
+      
+    } else {
+      alert('❌ Error: ' + data.error);
+    }
+    
+  } catch (error) {
+    console.error('Error:', error);
+    alert('❌ Error de conexión con el servidor');
+  }
+});
+
+
+document.getElementById('btnRechazar').addEventListener('click', async () => {
+  const modal = document.getElementById('modalRevisar');
+  const registroId = modal.dataset.registroId;
+  
+  if(!confirm('¿Está seguro de rechazar este registro?')) return;
+  
+  try {
+    const response = await fetch(`/admin/pendientes/rechazar/${registroId}`, {
+      method: 'POST'
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      alert('Registro rechazado');
+      modal.style.display = 'none';
+      
+      
+      await cargarPendientes();
+      cargarVista('invitaciones');
+    } else {
+      alert('❌ Error: ' + data.error);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('❌ Error de conexión con el servidor');
+  }
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+  await cargarTodosLosDatos();
+  
+  cargarVista('dashboard');
+
+  document.querySelectorAll('nav a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const vista = a.id.replace('link-', '');
+      cargarVista(vista);
+    });
+  });
+
+
+  const userIcon = document.getElementById('userIcon');
+  const userDropdown = document.getElementById('userDropdown');
+  userIcon.addEventListener('click', () => {
+    userDropdown.style.display = userDropdown.style.display === 'block' ? 'none' : 'block';
+  });
+  document.addEventListener('click', e => {
+    if(!userIcon.contains(e.target) && !userDropdown.contains(e.target)) userDropdown.style.display = 'none';
+  });
+
+
+  document.getElementById('logout').addEventListener('click', () => {
+    window.location.href = '/logout';
+  });
+  
+
+  document.getElementById('modalRevisar').addEventListener('click', (e) => {
+    if (e.target.id === 'modalRevisar') {
+      e.target.style.display = 'none';
+    }
+  });
+  
+
+  window.editarUsuarioModal = function(id) {
+    alert('Funcionalidad de edición de usuario en desarrollo. ID: ' + id);
+  };
+  
+  window.editarEstudianteModal = function(id) {
+    alert('Funcionalidad de edición de estudiante en desarrollo. ID: ' + id);
+  };
+});
+</script>
+
+</body>
+</html>

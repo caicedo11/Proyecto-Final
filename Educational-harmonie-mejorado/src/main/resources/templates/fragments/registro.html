@@ -1,0 +1,28 @@
+<div th:fragment="registro">
+    <h2>Registro de Usuarios</h2>
+    <p>Complete el siguiente formulario para registrar nuevos usuarios.</p>
+
+    <form action="#" method="post" class="formulario">
+        <label for="tipo">Tipo de usuario:</label>
+        <select id="tipo" name="tipo" required>
+            <option value="">Seleccione...</option>
+            <option value="docente">Docente</option>
+            <option value="acudiente">Acudiente</option>
+            <option value="estudiante">Estudiante</option>
+        </select>
+
+        <label for="nombre">Nombre completo:</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre completo" required>
+
+        <label for="correo">Correo electrónico:</label>
+        <input type="email" id="correo" name="correo" placeholder="usuario@ejemplo.com" required>
+
+        <label for="usuario">Usuario:</label>
+        <input type="text" id="usuario" name="usuario" placeholder="Nombre de usuario" required>
+
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" placeholder="********" required>
+
+        <button type="submit" class="btn-guardar">Registrar</button>
+    </form>
+</div>

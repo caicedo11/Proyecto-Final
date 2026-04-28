@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Acudiente | Educational Harmonie</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+  font-family:"Poppins",sans-serif; 
+  background:linear-gradient(135deg,#eef3fa,#fff); 
+  display:flex; 
+  min-height:100vh; 
+  color:#2c3e50; 
+  overflow-x:hidden; 
+}
+
+
+.sidebar { 
+  width:260px; 
+  background:linear-gradient(180deg,#0b63e5,#00b4ff); 
+  color:white; 
+  display:flex; 
+  flex-direction:column; 
+  align-items:center; 
+  padding:25px 0; 
+  box-shadow:4px 0 15px rgba(0,0,0,0.2); 
+  position:fixed; 
+  height:100vh; 
+  z-index:1000; 
+}
+.sidebar .brand { 
+  text-align:center; 
+  margin-bottom:40px; 
+  padding: 0 15px;
+}
+.sidebar .brand i { 
+  font-size:3rem; 
+  margin-bottom:10px; 
+}
+.sidebar .brand h1 { 
+  font-size:1.2rem; 
+  letter-spacing:1px; 
+  font-weight:600; 
+}
+.sidebar nav { 
+  display:flex; 
+  flex-direction:column; 
+  gap:15px; 
+  width:100%; 
+  align-items:center; 
+}
+.sidebar nav a { 
+  display:flex; 
+  align-items:center; 
+  gap:12px; 
+  width:80%; 
+  padding:12px 15px; 
+  border-radius:12px; 
+  color:white; 
+  font-weight:500; 
+  text-decoration:none; 
+  transition:all 0.3s ease; 
+}
+.sidebar nav a:hover, .sidebar nav a.active { 
+  background:rgba(255,255,255,0.2); 
+  transform:translateX(4px); 
+}
+
+
+.main { 
+  margin-left:260px; 
+  flex:1; 
+  padding:30px 50px; 
+  transition:all 0.3s ease; 
+}
+header { 
+  background:rgba(255,255,255,0.8); 
+  backdrop-filter:blur(10px); 
+  border-radius:15px; 
+  padding:20px 30px; 
+  box-shadow:0 6px 15px rgba(0,0,0,0.1); 
+  display:flex; 
+  justify-content:space-between; 
+  align-items:center; 
+  margin-bottom:20px; 
+  position:sticky; 
+  top:0; 
+  z-index:10; 
+}
+header h1 { 
+  font-size:1.8rem; 
+  color:#0b63e5; 
+  letter-spacing:1px; 
+}
+
+
+.user-menu { 
+  position:relative; 
+}
+.user-icon { 
+  font-size:2.2rem; 
+  color:#0b63e5; 
+  cursor:pointer; 
+  transition:transform 0.3s ease; 
+}
+.user-icon:hover { 
+  transform:scale(1.1); 
+}
+.dropdown-menu { 
+  display:none; 
+  position:absolute; 
+  right:0; 
+  top:45px; 
+  background:white; 
+  border-radius:12px; 
+  box-shadow:0 4px 15px rgba(0,0,0,0.15); 
+  overflow:hidden; 
+  animation:fadeIn 0.3s ease; 
+  min-width: 160px;
+}
+.dropdown-menu a { 
+  display:block; 
+  padding:10px 20px; 
+  text-decoration:none; 
+  color:#2c3e50; 
+  transition:background 0.3s ease; 
+}
+.dropdown-menu a:hover { 
+  background:#eaf3ff; 
+  color:#0b63e5; 
+}
+
+#contenido { 
+  background:white; 
+  border-radius:15px; 
+  padding:30px; 
+  box-shadow:0 4px 15px rgba(0,0,0,0.1); 
+  animation:fadeIn 0.4s ease-in-out; 
+  margin-top: 20px;
+}
+
+
+.seccion-titulo {
+  color: #0b63e5;
+  border-bottom: 2px solid #0b63e5;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.dashboard-cards {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+.card {
+  background: linear-gradient(135deg, #0b63e5, #00b4ff);
+  color: white;
+  border-radius: 12px;
+  padding: 20px;
+  flex: 1;
+  min-width: 200px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+.card h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+}
+.card .number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.card .link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 200px;
+}
+label {
+  font-size: 0.95rem;
+  color: #34495e;
+  font-weight: 500;
+}
+input[type="text"],
+input[type="email"],
+input[type="date"],
+select,
+textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  outline: none;
+  transition: 0.3s;
+}
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #0b63e5;
+  box-shadow: 0 0 8px rgba(11,99,229,0.2);
+}
+
+
+.btn-enviar,
+.btn-registrar {
+  background: linear-gradient(90deg, #0b63e5, #00b4ff);
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-weight: 600;
+}
+.btn-enviar:hover,
+.btn-registrar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(11,99,229,0.3);
+}
+
+
+table { 
+  width:100%; 
+  border-collapse:collapse; 
+  margin-top:25px; 
+}
+th, td { 
+  border-bottom:1px solid #ddd; 
+  padding:12px; 
+  text-align:center; 
+}
+th { 
+  background-color:#0b63e5; 
+  color:white; 
+  font-weight:500; 
+}
+tr:hover { 
+  background-color:#f4f9ff; 
+}
+
+
+@keyframes fadeIn { 
+  from { 
+    opacity:0; 
+    transform:translateY(10px); 
+  } 
+  to { 
+    opacity:1; 
+    transform:translateY(0); 
+  } 
+}
+
+
+@media (max-width: 900px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding-bottom: 12px;
+  }
+  .main {
+    margin-left: 0;
+    padding: 16px;
+  }
+  .form-row {
+    flex-direction: column;
+  }
+  .dashboard-cards {
+    flex-direction: column;
+  }
+}
+</style>
+
+<script defer>
+// Datos de ejemplo
+const STORAGE_QUEJAS = 'acudiente_quejas_v1';
+const STORAGE_REPORTES = 'acudiente_reportes_v1';
+const STORAGE_NOTIFICACIONES = 'acudiente_notificaciones_v1';
+const STORAGE_CALIFICACIONES = 'acudiente_calificaciones_v1';
+
+let quejas = JSON.parse(localStorage.getItem(STORAGE_QUEJAS) || '[]');
+let reportes = JSON.parse(localStorage.getItem(STORAGE_REPORTES) || '[]');
+let notificaciones = JSON.parse(localStorage.getItem(STORAGE_NOTIFICACIONES) || '[]');
+let calificaciones = JSON.parse(localStorage.getItem(STORAGE_CALIFICACIONES) || '[]');
+
+// Funciones de guardado
+function saveQuejas() { localStorage.setItem(STORAGE_QUEJAS, JSON.stringify(quejas)); }
+function saveReportes() { localStorage.setItem(STORAGE_REPORTES, JSON.stringify(reportes)); }
+function saveNotificaciones() { localStorage.setItem(STORAGE_NOTIFICACIONES, JSON.stringify(notificaciones)); }
+function saveCalificaciones() { localStorage.setItem(STORAGE_CALIFICACIONES, JSON.stringify(calificaciones)); }
+
+// Función para marcar enlace activo
+function marcarActivo(id) {
+  document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
+  if (id) document.getElementById(id).classList.add('active');
+}
+
+// Función para cargar vistas
+function cargarVista(vista) {
+  const contenido = document.getElementById("contenido");
+  
+  if (vista === "dashboard") {
+    marcarActivo('link-dashboard');
+    contenido.innerHTML = `
+      <h2 class="seccion-titulo"><i class="fa-solid fa-house"></i> Panel de Control</h2>
+      
+      <div class="dashboard-cards">
+        <div class="card">
+          <h3>Reportes del Estudiante</h3>
+          <div class="number">${reportes.length}</div>
+          <a href="#" class="link" id="verReportesCard">Ver todo <i class="fa-regular fa-smile"></i></a>
+        </div>
+        <div class="card">
+          <h3>Quejas Enviadas</h3>
+          <div class="number">${quejas.length}</div>
+          <a href="#" class="link" id="verQuejasCard">Ver todo <i class="fa-regular fa-smile"></i></a>
+        </div>
+      </div>
+      
+      <div style="margin-top: 30px;">
+        <h3>Bienvenido al Panel del Acudiente</h3>
+        <p>Desde aquí puedes consultar los reportes del estudiante y enviar quejas fácilmente.</p>
+      </div>
+    `;
+    
+    // Agregar event listeners a los enlaces
+    document.getElementById('verReportesCard').addEventListener('click', (e) => {
+      e.preventDefault();
+      cargarVista('verReportes');
+    });
+    document.getElementById('verQuejasCard').addEventListener('click', (e) => {
+      e.preventDefault();
+      cargarVista('verQuejas');
+    });
+    
+    return;
+  }
+  
+  if (vista === "enviarQueja") {
+    marcarActivo('link-enviarQueja');
+    contenido.innerHTML = `
+      <h2 class="seccion-titulo"><i class="fa-solid fa-paper-plane"></i> Enviar Queja</h2>
+      <form id="formQueja">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre">Nombre del acudiente *</label>
+            <input type="text" id="nombre" placeholder="Ingrese su nombre completo" required>
+          </div>
+          <div class="form-group">
+            <label for="codigoEstudiante">Código del estudiante *</label>
+            <input type="text" id="codigoEstudiante" placeholder="Código del estudiante" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="destinatario">Destinatario *</label>
+            <select id="destinatario" required>
+              <option value="">Seleccione un destinatario</option>
+              <option value="Dirección">Dirección</option>
+              <option value="Coordinación">Coordinación</option>
+              <option value="Docente">Docente</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="asunto">Asunto *</label>
+            <input type="text" id="asunto" placeholder="Asunto de la queja" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="descripcion">Descripción *</label>
+          <textarea id="descripcion" rows="4" placeholder="Escriba su queja aquí..." required></textarea>
+        </div>
+        <button type="submit" class="btn-enviar"><i class="fa-solid fa-share"></i> Enviar Queja</button>
+      </form>
+    `;
+    
+    document.getElementById("formQueja").addEventListener("submit", e => {
+      e.preventDefault();
+      const queja = {
+        nombre: document.getElementById("nombre").value.trim(),
+        codigoEstudiante: document.getElementById("codigoEstudiante").value.trim(),
+        destinatario: document.getElementById("destinatario").value,
+        asunto: document.getElementById("asunto").value.trim(),
+        descripcion: document.getElementById("descripcion").value.trim(),
+        fecha: new Date().toISOString().split('T')[0],
+        estado: 'Pendiente'
+      };
+      quejas.push(queja);
+      saveQuejas();
+      alert("✅ La queja ha sido enviada correctamente.");
+      e.target.reset();
+    });
+    return;
+  }
+  
+  if (vista === "verReportes") {
+    marcarActivo('link-verReportes');
+    if (reportes.length === 0) {
+      contenido.innerHTML = `
+        <h2 class="seccion-titulo"><i class="fa-solid fa-clipboard-list"></i> Historial de Reportes</h2>
+        <p>No hay reportes registrados para el estudiante.</p>
+      `;
+      return;
+    }
+    
+    contenido.innerHTML = `
+      <h2 class="seccion-titulo"><i class="fa-solid fa-clipboard-list"></i> Historial de Reportes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Docente</th>
+            <th>Motivo</th>
+            <th>Acción Tomada</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${reportes.map(r => `
+            <tr>
+              <td>${r.fecha}</td>
+              <td>${r.docente}</td>
+              <td>${r.motivo}</td>
+              <td>${r.accion}</td>
+              <td>
+                ${r.estado === 'resuelto' 
+                  ? '<span style="color:green">Resuelto</span>' 
+                  : '<span style="color:orange">Pendiente</span>'}
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+    return;
+  }
+  
+  if (vista === "verQuejas") {
+    marcarActivo('link-verQuejas');
+    if (quejas.length === 0) {
+      contenido.innerHTML = `
+        <h2 class="seccion-titulo"><i class="fa-solid fa-comments"></i> Historial de Quejas</h2>
+        <p>No has enviado ninguna queja aún.</p>
+      `;
+      return;
+    }
+    
+    contenido.innerHTML = `
+      <h2 class="seccion-titulo"><i class="fa-solid fa-comments"></i> Historial de Quejas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Destinatario</th>
+            <th>Asunto</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${quejas.map(q => `
+            <tr>
+              <td>${q.fecha}</td>
+              <td>${q.destinatario}</td>
+              <td>${q.asunto}</td>
+              <td style="text-align:left;padding-left:12px">${q.descripcion}</td>
+              <td>
+                ${q.estado === 'Resuelta' 
+                  ? '<span style="color:green">Resuelta</span>' 
+                  : '<span style="color:orange">Pendiente</span>'}
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+    return;
+  }
+}
+
+function cerrarSesion() { 
+  if (confirm("¿Está seguro de que desea cerrar sesión?")) {
+    window.location.href = "Home.html"; 
+  }
+}
+
+// Inicialización
+document.addEventListener("DOMContentLoaded", () => {
+  // Navegación
+  document.querySelectorAll('.sidebar nav a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const vista = a.id.replace('link-', '');
+      cargarVista(vista);
+    });
+  });
+  
+  // Menú de usuario
+  const userIcon = document.getElementById("userIcon");
+  const dropdown = document.getElementById("dropdownMenu");
+  userIcon.addEventListener("click", () => { 
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block"; 
+  });
+  document.addEventListener("click", e => { 
+    if (!userIcon.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.style.display = "none"; 
+    }
+  });
+  
+  // Cargar vista inicial
+  cargarVista("dashboard");
+});
+</script>
+</head>
+
+<body>
+<aside class="sidebar">
+  <div class="brand">
+    <i class="fas fa-book-open"></i>
+    <h1>EDUCATIONAL HARMONIE</h1>
+  </div>
+  <nav>
+    <a href="#" id="link-dashboard" class="active"><i class="fa-solid fa-house"></i> Inicio</a>
+    <a href="#" id="link-enviarQueja"><i class="fa-solid fa-comment-dots"></i> Enviar Queja</a>
+    <a href="#" id="link-verReportes"><i class="fa-solid fa-file-lines"></i> Historial de Reportes</a>
+    <a href="#" id="link-verQuejas"><i class="fa-solid fa-comments"></i> Historial de Quejas</a>
+  </nav>
+</aside>
+
+<main class="main">
+  <header>
+    <h1>PANEL ACUDIENTE</h1>
+    <div class="user-menu">
+      <div class="user-icon" id="userIcon"><i class="fa-solid fa-user-graduate"></i></div>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="#"><i class="fa-solid fa-user"></i> Perfil</a>
+        <a href="#" id="logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
+      </div>
+    </div>
+  </header>
+  <section id="contenido"></section>
+</main>
+
+<script>
+// Datos de ejemplo para inicializar
+document.addEventListener('DOMContentLoaded', function() {
+  // Inicializar datos de ejemplo si no existen
+  if (reportes.length === 0) {
+    reportes = [
+      { fecha:"15/10/2025", docente:"Profesor Gómez", motivo:"Inasistencia a clase", accion:"Notificación enviada", estado: "resuelto" },
+      { fecha:"21/10/2025", docente:"Profesora Ruiz", motivo:"Comportamiento inadecuado", accion:"Reunión con acudiente", estado: "pendiente" }
+    ];
+    saveReportes();
+  }
+  
+  // Cerrar sesión
+  document.getElementById('logout').addEventListener('click', () => {
+      window.location.href = '/logout'; // En lugar de 'Home.html'
+  });
+});
+</script>
+</body>
+</html>

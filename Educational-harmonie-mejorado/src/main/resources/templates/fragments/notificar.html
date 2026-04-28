@@ -1,0 +1,43 @@
+<div th:fragment="notificar">
+    <h2>Notificaciones a Docentes</h2>
+    <p>Envía mensajes o recordatorios a los docentes registrados.</p>
+
+    <form action="#" method="post" class="formulario">
+        <label for="destinatario">Docente:</label>
+        <select id="destinatario" name="destinatario">
+            <option value="">Seleccione un docente...</option>
+            <option>María Gómez</option>
+            <option>Pedro Torres</option>
+        </select>
+
+        <label for="asunto">Asunto:</label>
+        <input type="text" id="asunto" name="asunto" placeholder="Motivo del mensaje">
+
+        <label for="mensaje">Mensaje:</label>
+        <textarea id="mensaje" name="mensaje" rows="4" placeholder="Escriba el mensaje aquí..."></textarea>
+
+        <button type="submit" class="btn-guardar">Enviar notificación</button>
+    </form>
+
+    <div class="historial-notificaciones">
+        <h3>Historial de notificaciones</h3>
+        <table class="tabla">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Docente</th>
+                    <th>Asunto</th>
+                    <th>Mensaje</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2025-10-25</td>
+                    <td>Pedro Torres</td>
+                    <td>Reunión de seguimiento</td>
+                    <td>Favor asistir el lunes a las 7:00 a.m. a coordinación.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<section class="formulario-admin">
+  <h2>Registrar Usuario</h2>
+
+  <form action="/admin/registrarUsuario" method="post" class="formulario-usuario">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" required placeholder="Ingrese el nombre">
+    </div>
+
+    <div class="form-group">
+      <label for="apellido">Apellido</label>
+      <input type="text" id="apellido" name="apellido" required placeholder="Ingrese el apellido">
+    </div>
+
+    <div class="form-group">
+      <label for="correo">Correo electrónico</label>
+      <input type="email" id="correo" name="correo" required placeholder="ejemplo@correo.com">
+    </div>
+
+    <div class="form-group">
+      <label for="contraseña">Contraseña</label>
+      <input type="password" id="contraseña" name="contraseña" required placeholder="Ingrese una contraseña">
+    </div>
+
+    <div class="form-group">
+      <label for="rol">Rol</label>
+      <select id="rol" name="rol" required>
+        <option value="" disabled selected>Seleccione un rol</option>
+        <option value="acudiente">Acudiente</option>
+        <option value="docente">Docente</option>
+        <option value="admin">Administrador</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn-registrar">Registrar</button>
+  </form>
+</section>

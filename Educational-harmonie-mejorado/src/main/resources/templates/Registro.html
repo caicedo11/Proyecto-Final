@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Registro</title>
+
+```
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        width: 350px;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .logo {
+        width: 140px;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #2c3e50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #34495e;
+    }
+
+    .success {
+        color: green;
+        margin-bottom: 10px;
+    }
+
+    .error {
+        color: red;
+        margin-bottom: 10px;
+    }
+</style>
+```
+
+</head>
+<body>
+
+<div class="container">
+
+```
+<img th:src="@{/img/logonuevo.jpg}" alt="Logo" class="logo">
+
+<h2>Formulario de Registro</h2>
+
+<p class="success" th:if="${mensaje}" th:text="${mensaje}"></p>
+<p class="error" th:if="${error}" th:text="${error}"></p>
+
+<form th:action="@{/registro/completar}" th:object="${nuevoUsuario}" method="post">
+
+    <input type="text" th:field="*{nombre}" placeholder="Nombre" required>
+    <input type="text" th:field="*{apellidop}" placeholder="Apellido Paterno" required>
+    <input type="text" th:field="*{apellidom}" placeholder="Apellido Materno">
+    <input type="text" th:field="*{usuario}" placeholder="Usuario" required>
+    <input type="email" th:field="*{correo}" placeholder="Correo electrónico" required>
+    <input type="password" th:field="*{contrasena}" placeholder="Contraseña" required>
+    <input type="text" th:field="*{curso}" placeholder="Curso">
+
+    <!-- ✅ SELECCIÓN DE ROL (CORRECCIÓN CLAVE) -->
+    <select th:field="*{idCargo}" required>
+        <option value="">Seleccione un rol</option>
+        <option value="2">Acudiente</option>
+        <option value="3">Docente</option>
+    </select>
+
+    <button type="submit">Registrarse</button>
+
+</form>
+```
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<div th:fragment="registrarEstudiante">
+  <h2 class="titulo-seccion">Control de Alumnos</h2>
+
+  <form class="formulario" th:action="@{/admin/registrarEstudiante}" method="post">
+    <div class="fila">
+      <div class="campo">
+        <label>Ciclo Escolar *</label>
+        <input type="text" name="ciclo" value="2025" readonly>
+      </div>
+      <div class="campo">
+        <label>Grado *</label>
+        <select name="grado" required>
+          <option value="">Seleccione un grado</option>
+          <option value="1">Primero</option>
+          <option value="2">Segundo</option>
+          <option value="3">Tercero</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="fila">
+      <div class="campo">
+        <label>Nombre del Alumno *</label>
+        <input type="text" name="nombre" placeholder="Ej. John" required>
+      </div>
+      <div class="campo">
+        <label>Apellido del Alumno *</label>
+        <input type="text" name="apellido" placeholder="Ej. Pérez" required>
+      </div>
+    </div>
+
+    <div class="fila">
+      <div class="campo">
+        <label>Teléfono *</label>
+        <input type="text" name="telefono" placeholder="Ej. 0000000000" required>
+      </div>
+      <div class="campo">
+        <label>Dirección *</label>
+        <input type="text" name="direccion" placeholder="Ingrese dirección del alumno" required>
+      </div>
+    </div>
+
+    <div class="fila">
+      <div class="campo">
+        <label>Correo *</label>
+        <input type="email" name="correo" placeholder="correo@correo.com">
+      </div>
+      <div class="campo">
+        <label>Fecha de Nacimiento *</label>
+        <input type="date" name="nacimiento" required>
+      </div>
+    </div>
+
+    <div class="fila">
+      <div class="campo">
+        <label>Edad *</label>
+        <input type="number" name="edad" min="5" max="18" required>
+      </div>
+      <div class="campo">
+        <label>Sexo *</label>
+        <select name="sexo" required>
+          <option value="">Seleccione</option>
+          <option value="M">Masculino</option>
+          <option value="F">Femenino</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-registrar">Inscribir Alumno</button>
+  </form>
+</div>

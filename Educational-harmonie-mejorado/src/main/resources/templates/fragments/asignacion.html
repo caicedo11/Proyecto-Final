@@ -1,0 +1,41 @@
+<div th:fragment="asignacion">
+    <h2>Asignar Docentes a Cursos</h2>
+    <p>Asigne los docentes a los cursos correspondientes.</p>
+
+    <form action="#" method="post" class="formulario">
+        <label for="docente">Docente:</label>
+        <select id="docente" name="docente">
+            <option value="">Seleccione un docente...</option>
+            <option>María Gómez</option>
+            <option>Pedro Torres</option>
+        </select>
+
+        <label for="curso">Curso:</label>
+        <select id="curso" name="curso">
+            <option value="">Seleccione un curso...</option>
+            <option>6°A</option>
+            <option>7°B</option>
+            <option>8°A</option>
+        </select>
+
+        <button type="submit" class="btn-guardar">Asignar</button>
+    </form>
+
+    <h3>Asignaciones Actuales</h3>
+    <table class="tabla">
+        <thead>
+            <tr>
+                <th>Docente</th>
+                <th>Curso</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>María Gómez</td>
+                <td>7°B</td>
+                <td><button class="btn-eliminar">Eliminar</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

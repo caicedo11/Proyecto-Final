@@ -1,0 +1,31 @@
+<div th:fragment="historial">
+    <h2>Historial Disciplinario</h2>
+    <p>Consulta los reportes disciplinarios registrados en la plataforma.</p>
+
+    <div class="busqueda">
+        <input type="text" placeholder="Buscar estudiante por nombre o código...">
+        <button class="btn-buscar">Buscar</button>
+    </div>
+
+    <table class="tabla">
+        <thead>
+            <tr>
+                <th>Estudiante</th>
+                <th>Grado</th>
+                <th>Fecha</th>
+                <th>Docente</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Ejemplo de fila -->
+            <tr>
+                <td>Juan Pérez</td>
+                <td>7°B</td>
+                <td>2025-10-20</td>
+                <td>María Gómez</td>
+                <td>Uso inadecuado del uniforme</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
