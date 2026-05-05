@@ -14,7 +14,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void _handleLogin() {
     String user = _userController.text.toLowerCase();
 
-    // Lógica de redirección basada en el usuario
     if (user == 'admin') {
       Navigator.pushReplacementNamed(context, '/admin');
     } else if (user == 'docente') {
@@ -24,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Usuario no reconocido. Prueba con: admin, docente o acudiente"),
+          content: Text("Usuario no reconocido"),
           backgroundColor: Colors.red,
         ),
       );
@@ -34,52 +33,89 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFf0f0f0),
+      backgroundColor: const Color(0xFFF0F0F0),
+
       body: Column(
         children: [
-          // Header azul superior
+
+          /// 🔵 HEADER (igual HTML)
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             width: double.infinity,
-            color: const Color(0xFF0874e0),
+            padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+            decoration: const BoxDecoration(
+              color: Color(0xFF0874E0),
+              boxShadow: [
+                BoxShadow(color: Colors.black26, blurRadius: 5)
+              ],
+            ),
             child: SafeArea(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Logo pequeño en el header reemplazando el icono genérico
-                  Image.asset(
-                    'assets/images/app_logo.png',
-                    height: 40,
-                    color: Colors.white, // Esto lo hace ver como un icono blanco
+                  Row(
+                    children: const [
+                      Icon(Icons.menu_book, color: Colors.white),
+                      SizedBox(width: 10),
+                      Text(
+                        "EDUCATIONAL HARMONIE",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 15),
-                  const Text("EDUCATIONAL HARMONIE", 
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: 1)),
+                  const Text(
+                    "HOME",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
                 ],
               ),
             ),
           ),
-          
+
+          /// 🔵 CONTENIDO
           Expanded(
             child: Center(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(30),
+                padding: const EdgeInsets.all(20),
+
                 child: Container(
+                  width: 400,
                   padding: const EdgeInsets.all(40),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: const Color(0xFFF7F7F7),
                     borderRadius: BorderRadius.circular(10),
-                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 20)],
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 24,
+                      )
+                    ],
                   ),
+
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // LOGO PRINCIPAL (Reemplaza el círculo con el icono de la escuela)
+
+                      /// 🔵 LOGO
                       Container(
-                        width: 120,
-                        height: 120,
-                        decoration: const BoxDecoration(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
                           shape: BoxShape.circle,
+                          border: Border.all(color: const Color(0xFF0874E0), width: 3),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF0874E0).withOpacity(0.3),
+                              blurRadius: 10,
+                            )
+                          ],
                         ),
                         child: ClipOval(
                           child: Image.asset(
@@ -88,49 +124,98 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 15),
-                      const Text("Iniciar Sesión", 
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF0874e0))),
+
+                      const SizedBox(height: 10),
+
+                      const Text(
+                        "Educational Harmonie",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color(0xFF0874E0),
+                          letterSpacing: 1,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
                       const SizedBox(height: 25),
-                      
-                      // Campos de texto
+
+                      const Text(
+                        "INICIAR SESIÓN",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF0874E0),
+                          letterSpacing: 1,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      /// 🔵 INPUT USUARIO
                       TextField(
                         controller: _userController,
                         decoration: InputDecoration(
                           hintText: "Usuario",
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 15),
+
+                      const SizedBox(height: 20),
+
+                      /// 🔵 INPUT PASSWORD
                       TextField(
                         controller: _passController,
                         obscureText: true,
                         decoration: InputDecoration(
                           hintText: "Contraseña",
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 25),
-                      
-                      // Botón con gradiente
+
+                      const SizedBox(height: 20),
+
+                      /// 🔵 BOTÓN (GRADIENTE IGUAL HTML)
                       Container(
                         width: double.infinity,
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          gradient: const LinearGradient(colors: [Color(0xFF0874e0), Color(0xFF00a8ff)]),
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFF0874E0), Color(0xFF00A8FF)],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0x660874E0),
+                              blurRadius: 10,
+                            )
+                          ],
                         ),
                         child: ElevatedButton(
                           onPressed: _handleLogin,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,
                             shadowColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
-                          child: const Text("INGRESAR", 
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                          child: const Text(
+                            "Ingresar",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -139,14 +224,34 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          
-          // Footer
+
+          /// 🔵 FOOTER (igual HTML)
           Container(
-            padding: const EdgeInsets.all(15),
-            color: const Color(0xFF0874e0),
             width: double.infinity,
-            child: const Text("© 2026 Educational Harmonie", 
-              textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 12)),
+            padding: const EdgeInsets.all(15),
+            decoration: const BoxDecoration(
+              color: Color(0xFF0874E0),
+              boxShadow: [
+                BoxShadow(color: Colors.black26, blurRadius: 8)
+              ],
+            ),
+            child: Column(
+              children: [
+                ClipOval(
+                  child: Image.asset(
+                    'assets/images/app_logo.jpg',
+                    width: 70,
+                    height: 70,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                const Text(
+                  "© 2026 Educational Harmonie",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
           ),
         ],
       ),
